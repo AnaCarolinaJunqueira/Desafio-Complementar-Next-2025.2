@@ -7,35 +7,10 @@ import FeedbackTwo from "./componentesProntos/feedback/variante2";
 import Footer1 from "./componentesProntos/footer/variante1";
 
 export default function Home() {
-
-  const pages = [
-    { name: "Home", url: "/" },
-    { name: "Sobre nós", url: "#sobre" },
-    { name: "Serviços", url: "#servicos" },
-    { name: "Feedbacks", url: "#feedback" },
-    { name: "Equipe", url: "#clientes" },
-    { name: "Gerenciamento", url: "/gerenciamento" },
-  ];
-
-  const links = [
-    { link: "https://instagram.com", icon: "/images/insta.png" },
-    { link: "https://facebook.com", icon: "/images/fb.png" },
-    { link: "https://mail.google.com", icon: "/images/email.png" },
-    { link: "https://linkedin.com", icon: "/images/linkedin.png" },
-    { link: "https://github.com/ViniCampos12", icon: "/images/phone.png" },
-  ];
-
   const descriptionsCard = ["Tornar a terapia um espaço acessível, leve e transformador, promovendo o autoconhecimento, o bem-estar e equilíbrio emocional.", "Ser referência em atendimento psicológico humanizado, conectando pessoas ao seu próprio processo de desenvolvimento.", "Empatia, Autenticidade, Cuidado, Evolução, Individualidade, Respeito, Sensibilidade"];
 
   return (
     <main>
-      <Navbar1 
-        image_src="/images/logo.png" 
-        pages={pages} 
-        title_image="Psicode" 
-        link_color="#B54A22" 
-        style={{backgroundColor:"white", color:"#B54A22"}}
-      />
       <HeroSectionOne 
         image_src="/images/fundo-hero.png" 
         text="Encontre clareza, leveza e bem-estar com o acompanhamento psicológico que respeita o seu tempo e a sua história."
@@ -80,13 +55,6 @@ export default function Home() {
         style={{backgroundColor:"#F7EDE1",color:"#B54A22"}}
         title="Nossos Psicólogos"
         image_src_card={["/images/fed1.png","/images/fed2.png","/images/fed3.jpg","/images/fed4.png",]}
-      />
-      <Footer1
-        style={{backgroundColor:"#B54A22", color:"white"}}
-        image_src="/images/logo-nome.png"
-        information="Universidade Federal de Juiz de Fora"
-        title_information="Endereço"
-        links={links}
       />
     </main>
   );

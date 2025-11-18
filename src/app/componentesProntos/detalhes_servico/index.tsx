@@ -12,14 +12,14 @@ type ServiceDetailProps = {
 
 export default function ServiceDetail({title, description, price, image, phone}: ServiceDetailProps){
     return(
-        <section className="flex flex-col md:flex-row items-center gap-12 px-6 md:px-20 py-16 bg-[#fffaf6]">
+        <section className="flex flex-col md:flex-row items-center gap-12 px-6 md:px-20 py-40 bg-[#F7EDE1]">
             {/* Imagem para ilustrar o servico */}
             <div className="w-full md:w-1/2 flex justify-center">
                 <Image
                 src={image}
                 alt={title}
-                width={500}
-                height={400}
+                width={600}
+                height={500}
                 className="rounded-xl object-cover"
                 />
             </div>

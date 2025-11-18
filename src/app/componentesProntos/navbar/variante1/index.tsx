@@ -28,7 +28,7 @@ export default function Navbar1(props: {
             <div className="pages">
                 {props.pages.map((page, index) => (
                         <div className="page" key={index}>
-                            <Link href={page.url} style={{color: props.link_color}}>{page.name}</Link>
+                            <Link href={page.url} style={{color: props.link_color}} className="link_navbar">{page.name}</Link>
                         </div>
                     ))
                 }
