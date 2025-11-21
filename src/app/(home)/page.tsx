@@ -1,10 +1,8 @@
-import HeroSectionOne from "./componentesProntos/herosection/variante1";
-import Navbar1 from "./componentesProntos/navbar/variante1";
-import SobreNosTwo from "./componentesProntos/sobrenos/variante2";
-import ServicesThree from "./componentesProntos/servicos/variante3";
-import FeedbackOne from "./componentesProntos/feedback/variante1";
-import FeedbackTwo from "./componentesProntos/feedback/variante2";
-import Footer1 from "./componentesProntos/footer/variante1";
+import HeroSectionOne from "../componentesProntos/herosection/variante1";
+import SobreNosTwo from "../componentesProntos/sobrenos/variante2";
+import ServicesThree from "../componentesProntos/servicos/variante3";
+import FeedbackOne from "../componentesProntos/feedback/variante1";
+import FeedbackTwo from "../componentesProntos/feedback/variante2";
 
 export default function Home() {
   const descriptionsCard = ["Tornar a terapia um espaço acessível, leve e transformador, promovendo o autoconhecimento, o bem-estar e equilíbrio emocional.", "Ser referência em atendimento psicológico humanizado, conectando pessoas ao seu próprio processo de desenvolvimento.", "Empatia, Autenticidade, Cuidado, Evolução, Individualidade, Respeito, Sensibilidade"];

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Nunito, Zain } from "next/font/google";
-import "./globals.css";
-import Navbar1 from "./componentesProntos/navbar/variante1";
-import Footer1 from "./componentesProntos/footer/variante1";
+import "../globals.css";
+import Navbar1 from "../componentesProntos/navbar/variante1";
+import Footer1 from "../componentesProntos/footer/variante1";
 
 
 const nunito = Nunito({
@@ -21,7 +21,7 @@ const zain = Zain({
     { name: "Serviços", url: "#servicos" },
     { name: "Feedbacks", url: "#feedback" },
     { name: "Equipe", url: "#clientes" },
-    { name: "Gerenciamento", url: "/gerenciamento" },
+    { name: "Gerenciamento", url: "/admin" },
   ];
 
   const links = [
