@@ -7,8 +7,19 @@ type ButtonsProps = {
 
 export default function Buttons({id, onView, onEdit, onDelete}: ButtonsProps){
     return(
-        <div>
-            
+        <div className="flex items-center gap-3">
+            {/*Botao de view */}
+            <button onClick={() => onView(id)} className="px-3 py-1 text-sm rounded-md bg-[#B54A22]text-white hover:bg-[#7b3f2f] transition">
+                View
+            </button>
+            {/*Botao de edit */}
+            <button onClick={() => onEdit(id)} className="px-3 py-1 text-sm rounded-md bg-[#B54A22]text-white hover:bg-[#7b3f2f] transition">
+                Edit
+            </button>
+            {/*Botao de delete */}
+            <button onClick={() => onDelete(id)} className="px-3 py-1 text-sm rounded-md bg-[#B54A22]text-white hover:bg-[#7b3f2f] transition">
+                Delete
+            </button>
         </div>
     )
 }
