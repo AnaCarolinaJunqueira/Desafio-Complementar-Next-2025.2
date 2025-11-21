@@ -12,8 +12,7 @@ export default function WhatsAppButton({phone, message}: WhatsAppButtonProps){
         <Link
         href={link}
         target="_blank"
-        className="inline-block bg-[#B54A22] text-white font-medium py-3 px-8 rounded-xl hover:bg-[#7b3f2f] transition-all"
-        >
+        className="inline-flex items-center justify-center bg-[#B54A22] text-white font-medium py-3 px-8 rounded-xl hover:bg-[#7b3f2f] transition-all text-center">
             Agendar consulta pelo WhatsApp
         </Link>
     )
