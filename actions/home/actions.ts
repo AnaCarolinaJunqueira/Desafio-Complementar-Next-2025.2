@@ -10,6 +10,7 @@ export default async function getServices() {
             title: true,
             content: true,
             image: true,
+            whatsapp: true,
         },
         orderBy: {id: "asc"},
     });

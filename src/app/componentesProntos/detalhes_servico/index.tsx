@@ -1,6 +1,7 @@
 'use client';
 import Image from "next/image";
 import WhatsAppButton from "./botao_whatsapp";
+import { Decimal } from "@prisma/client/runtime/library";
 
 type ServiceDetailProps = {
     title: string;
