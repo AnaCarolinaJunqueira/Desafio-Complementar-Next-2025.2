@@ -3,8 +3,12 @@ import SobreNosTwo from "../componentesProntos/sobrenos/variante2";
 import ServicesThree from "../componentesProntos/servicos/variante3";
 import FeedbackOne from "../componentesProntos/feedback/variante1";
 import FeedbackTwo from "../componentesProntos/feedback/variante2";
+import getServices from "@/actions/home/actions";
 
-export default function Home() {
+export default async function Home() {
+
+  const services = await getServices();
+
   const descriptionsCard = ["Tornar a terapia um espaço acessível, leve e transformador, promovendo o autoconhecimento, o bem-estar e equilíbrio emocional.", "Ser referência em atendimento psicológico humanizado, conectando pessoas ao seu próprio processo de desenvolvimento.", "Empatia, Autenticidade, Cuidado, Evolução, Individualidade, Respeito, Sensibilidade"];
 
   return (
@@ -28,10 +32,10 @@ export default function Home() {
 
       {/* Parte da página principal que vocês deverão utilizar para adicionar informações vindas do banco de dados */}
       <ServicesThree
-        title_card={["Lorem Ipsum","Lorem Ipsum","Lorem Ipsum","Lorem Ipsum","Lorem Ipsum","Lorem Ipsum",]}
-        description_card={["Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt est modi quaerat sint tenetur aliquam","Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt est modi quaerat sint tenetur aliquam","Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt est modi quaerat sint tenetur aliquam","Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt est modi quaerat sint tenetur aliquam","Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt est modi quaerat sint tenetur aliquam","Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt est modi quaerat sint tenetur aliquam"]}
-        image_src_card={["/images/fundo-services.png","/images/fundo-services.png","/images/fundo-services.png","/images/fundo-services.png","/images/fundo-services.png","/images/fundo-services.png",]}
-        link_service={["https://google.com","https://google.com","https://google.com","https://google.com","https://google.com","https://google.com","https://google.com"]}
+        title_card={services.map(s => s.title)}
+        description_card={services.map(s => s.content)}
+        image_src_card={services.map(s => s.image)}
+        link_service={services.map(s => `/service/${s.id}`)}
         style={{backgroundColor:"#F7EDE1"}}
         style_card={{backgroundColor:"#B54A22", color:"white"}}
         text_style={{color:"#B54A22"}}
