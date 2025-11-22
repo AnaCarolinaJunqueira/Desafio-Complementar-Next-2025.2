@@ -1,7 +1,7 @@
 "use client"
-
+import { useSearchParams } from "next/navigation";
 import ActionButtons from "./action_buttons";
-import Buttons from "./action_buttons";
+import SearchBar from "./searchbar";
 
 type Service = {
     id: string;
@@ -17,8 +17,15 @@ type TableProps = {
 };
 
 export default function ServicesTable({services}:TableProps){
+    
+    const searchParams = useSearchParams();
+    const search = searchParams.get("search")?.toLowerCase() ?? "";
+    const filtered = services.filter((service) => service.name.toLowerCase().includes(search));
+
     return(
         <div className="w-full overflow-x-auto">
+            {/*Barra de pesquisa*/}
+            <SearchBar/>
             {/*Tabela de serviços */}
             <table className="w-full border-collapse">
                 {/*Cabecalho da tabela */}
