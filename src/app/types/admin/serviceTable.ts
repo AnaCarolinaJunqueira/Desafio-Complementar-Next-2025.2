@@ -1,8 +1,9 @@
 export type Service = {
   id: number;
-  name: string;
-  price: string;
-  description: string;
+  title: string;
+  price: number;
+  content: string;
   image: string;
   whatsapp: string;
+  published: boolean;
 };
