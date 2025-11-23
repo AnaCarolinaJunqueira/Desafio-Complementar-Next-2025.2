@@ -4,13 +4,14 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Services {
   id        Int     @id @default(autoincrement())
   title     String  @unique
   content   String
-  price     Decimal @db.Decimal(6, 2)
+  price     Float
   whatsapp  String
   image     String
   published Boolean @default(false)

@@ -1,15 +1,7 @@
 "use client";
 
+import { Service } from "../../types/admin/serviceTable";
 import { X } from "lucide-react";
-
-type Service = {
-    id: string;
-    name: string;
-    price: string;
-    description: string;
-    image: string;
-    whatsapp: string;
-};
 
 type ViewModalProps = {
     open: boolean;

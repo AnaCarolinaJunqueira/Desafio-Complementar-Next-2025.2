@@ -1,41 +1,28 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import getServices from "@/actions/management/action";
 import ServicesTable from "../componentesProntos/services_table";
 import Pagination from "../componentesProntos/services_table/pagination";
-import { Decimal } from "@prisma/client/runtime/library";
+import { Service } from "../types/admin/serviceTable";
 
-type AdminProps = {
-  searchParams: {
-    page?: string;
- };
-};
+export default function Admin() {
+  const searchParams = useSearchParams();
+  const page = Number(searchParams.get("page")) || 1;
 
-type ServiceFromDB = {
-    id: number;
-    title: string;
-    content: string;
-    price: Decimal;
-    whatsapp: string;
-    image: string;
-    published: boolean;
-};
-type GetServicesReturn = {
-    services: ServiceFromDB[];
-    totalPages: number;
-};
+  // ⬅️ Tipando o state como Service[]
+  const [services, setServices] = useState<Service[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
 
-export default async function Admin({ searchParams }: AdminProps) {
-  const currentPage = Number(searchParams.page) || 1;
-    
-  const { services, totalPages } = (await getServices(currentPage)) as unknown as GetServicesReturn; 
-
-   const formattedServices = services.map(service => ({
-    id: String(service.id),
-    name: service.title,
-    price: `R$ ${service.price.toFixed(2).replace('.', ',')}`,
-    description: service.content,
-    image: service.image,
-    whatsapp: service.whatsapp,
-  }))
+  useEffect(() => {
+    async function load() {
+      const { services, totalPages } = await getServices(page);
+      setServices(services);
+      setTotalPages(totalPages);
+    }
+    load();
+  }, [page]);
 
   return (
     <main className="px-6 py-12 min-h-screen">
@@ -43,11 +30,8 @@ export default async function Admin({ searchParams }: AdminProps) {
         Gerenciamento de Serviços
       </h1>
 
-      <ServicesTable
-      services={formattedServices}
-      />
-
-      <Pagination totalPages={totalPages} />
+      <ServicesTable services={services} />
+      <Pagination totalPages={totalPages} currentPage={page} />
     </main>
   );
 }

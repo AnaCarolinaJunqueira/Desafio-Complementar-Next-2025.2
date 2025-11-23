@@ -2,21 +2,13 @@
 
 import { X } from "lucide-react";
 import { FormEvent } from "react";
-
-type Service = {
-    id: string;
-    name: string;
-    price: string;
-    description: string;
-    image: string;
-    whatsapp: string;
-};
+import { Service } from "../../types/admin/serviceTable";
 
 type EditModalProps = {
     open: boolean;
     onClose: () => void;
     service: Service | null;
-    onSave: (id: string, updated: any) => void;
+    onSave: (id: number, updated: any) => void;
 };
 
 export default function EditModal({ open, onClose, service, onSave }: EditModalProps) {

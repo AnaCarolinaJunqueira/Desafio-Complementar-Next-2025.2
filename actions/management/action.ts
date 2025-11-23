@@ -1,115 +1,39 @@
 "use server";
 
 import prisma from "@/src/lib/db";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { unstable_noStore as noStore } from "next/cache";
+import { Service } from "@/src/app/types/admin/serviceTable";
 
-const itemsPerPage = 5;
+export default async function getServices(page: number = 1): Promise<{ services: Service[]; totalPages: number }> {
+  const itemsPerPage = 5;
+  const skip = (page - 1) * itemsPerPage;
 
-//paginação
-export default async function getServices(currentPage: number) {
-    noStore();
-    const offset = (currentPage - 1) * itemsPerPage;
-    const services = await prisma.services.findMany({
-        orderBy:{ id:"asc"},
-        select: {
-            id: true,
-            title: true,
-            content: true,
-            price: true,
-            whatsapp: true,
-            image: true,
-            published: true,
-        },
-        take: itemsPerPage,
-        skip: offset,
-    });
+  const servicesRaw = await prisma.services.findMany({
+    skip,
+    take: itemsPerPage,
+    where: { published: true },
+    orderBy: { id: "asc" },
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      price: true,
+      whatsapp: true,
+      image: true,
+    },
+  });
 
-    const count = await prisma.services.count();
-    const totalPages = Math.ceil(count/itemsPerPage);
+  const total = await prisma.services.count({ where: { published: true } });
 
-    return {services, totalPages};
-}
+  const services: Service[] = servicesRaw.map((s) => ({
+    id: s.id,
+    name: s.title,
+    description: s.content,
+    price: `R$ ${s.price.toFixed(2)}`,
+    image: s.image,
+    whatsapp: s.whatsapp,
+  }));
 
-//get por id
-export async function getServicesById(id:number) {
-    return await prisma.services.findUnique({
-        where: {id},
-    });
-}
+  const totalPages = Math.ceil(total / itemsPerPage);
 
-
-//delete serviço
-export async function deleteService(id:number) {
-    await prisma.services.delete({
-        where:{id}
-    });
-
-    revalidatePath("/admin");
-}
-
-//criar serviço
-export async function createService(formData:FormData) {
-  const title = formData.get("title")?.toString() || "";
-  const content = formData.get("content")?.toString() || "";
-  const price = parseFloat(formData.get("price")?.toString() || "0");
-  const whatsapp = formData.get("whatsapp")?.toString() || "";
-  const image = formData.get("image")?.toString() || "";
-  const published = formData.get("published")?.toString() === "on";
-    
-    await prisma.services.create({
-        data: {
-            title,
-            content,
-            price,
-            whatsapp,
-            image,
-            published,
-        }
-    });
-
-    revalidatePath("/admin");
-    redirect("/admin");
-}
-
-//uptade serviço
-export async function uptadeService(id:number, formData: FormData) {
-    const title = formData.get("title")?.toString() || "";
-    const content = formData.get("content")?.toString() || "";
-    const price = parseFloat(formData.get("price")?.toString() || "0");
-    const whatsapp = formData.get("whatsapp")?.toString() || "";
-    const image = formData.get("image")?.toString() || "";
-    const publishedString = formData.get("published")?.toString() || "false";
-    const published = publishedString === "true";
-
-    await prisma.services.update({
-        where: {id},
-        data:{
-            title,
-            content,
-            price,
-            whatsapp,
-            image,
-            published,
-        }
-    });
-
-    revalidatePath("/admin")
-    redirect("/admin")
-}
-
-//view serviço
-export async function viewService(id:number) {
-    const service = await prisma.services.findUnique({
-        where: {id},
-    });
-
-    if(!service)
-        return null;
-
-    return{
-        ...service,
-        price: service.price.toString(),
-    };
+  return { services, totalPages };
 }

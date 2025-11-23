@@ -1,17 +1,11 @@
-"use client";
-
 import { X } from "lucide-react";
-
-type Service = {
-    id: string;
-    name: string;
-};
+import { Service } from "../../types/admin/serviceTable";
 
 type DeleteModalProps = {
     open: boolean;
     onClose: () => void;
     service: Service | null;
-    onConfirm: (id: string) => void;
+    onConfirm: (id: number) => void;
 };
 
 export default function DeleteModal({ open, onClose, service, onConfirm }: DeleteModalProps) {
