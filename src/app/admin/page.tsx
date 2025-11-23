@@ -9,7 +9,6 @@ type AdminProps = {
   };
 };
 
-// 💡 Tipagem baseada no seu action (getServices)
 type ServiceFromDB = {
     id: number;
     title: string;
@@ -27,10 +26,8 @@ type GetServicesReturn = {
 export default async function Admin({ searchParams }: AdminProps) {
   const currentPage = Number(searchParams.page) || 1;
     
-  // 2. Erros de propriedades (services e totalPages) corrigidos pela tipagem
   const { services, totalPages } = (await getServices(currentPage)) as GetServicesReturn; 
 
-  // 3. Erro de 'any' resolvido (se persistir, use (service: ServiceFromDB) => ...)
   const formattedServices = services.map(service => ({
     id: String(service.id),
     name: service.title,
