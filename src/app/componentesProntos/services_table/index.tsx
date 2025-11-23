@@ -34,7 +34,7 @@ export default function ServicesTable({services}:TableProps){
 
     const searchParams = useSearchParams();
     const search = searchParams.get("search")?.toLowerCase() ?? "";
-    const filtered = services.filter((service) => service.name.toLowerCase().includes(search));
+    const servicesToRender = search ? services.filter((service) => service.name.toLowerCase().includes(search)):services;
 
     return(
         <div className="w-full overflow-x-auto">
@@ -59,7 +59,7 @@ export default function ServicesTable({services}:TableProps){
                 </thead>
                 {/*Corpo da tabela */}
                 <tbody>
-                    {services.map((service, i) => (
+                    {servicesToRender.map((service, i) => (
                     <tr key={i} className="border-b text-center">
                         <td className="p-3 min-w-[150px] max-w-[180px] overflow-hidden text-ellipsis whitespace-nowrap truncate">{service.name}</td>
                         <td className="p-3 min-w-[100px]">{service.price}</td>

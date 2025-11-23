@@ -3,11 +3,13 @@
 import prisma from "@/src/lib/db";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { unstable_noStore as noStore } from "next/cache";
 
 const itemsPerPage = 5;
 
 //paginação
 export default async function getServices(currentPage: number) {
+    noStore();
     const offset = (currentPage - 1) * itemsPerPage;
     const services = await prisma.services.findMany({
         orderBy:{ id:"asc"},
