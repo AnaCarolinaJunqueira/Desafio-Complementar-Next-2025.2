@@ -74,3 +74,10 @@ export async function editService(id:number, data: {
 
   return uptade;
 }
+
+{/*Modal de Delete */}
+export async function deleteService(id:number) {
+  return await prisma.services.delete({
+    where: {id}
+  });
+}

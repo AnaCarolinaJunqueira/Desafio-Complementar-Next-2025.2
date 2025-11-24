@@ -10,6 +10,10 @@ type DeleteModalProps = {
 
 export default function DeleteModal({ open, onClose, service, onConfirm }: DeleteModalProps) {
     if (!open || !service) return null;
+    const handleDelete = () => {
+        onClose();
+        onConfirm(service.id);
+    }
 
     return (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
@@ -18,7 +22,7 @@ export default function DeleteModal({ open, onClose, service, onConfirm }: Delet
                 <h2 className="text-xl font-semibold mb-4 text-center text-red-600">Excluir Serviço</h2>
 
                 <p className="text-center">Tem certeza de que deseja excluir:</p>
-                <p className="font-semibold mt-2 text-center">{service.name}</p>
+                <p className="font-semibold mt-2 text-center">{service.title}</p>
 
                 <div className="flex justify-center gap-4 mt-6">
                     {/*Fecha Modal*/}
@@ -27,7 +31,7 @@ export default function DeleteModal({ open, onClose, service, onConfirm }: Delet
                     </button>
                     {/*Exclui servico*/}
                     <button
-                        onClick={() => onConfirm(service.id)}
+                        onClick={handleDelete}
                         className="px-4 py-2 bg-red-600 text-white rounded"
                     >
                         Excluir

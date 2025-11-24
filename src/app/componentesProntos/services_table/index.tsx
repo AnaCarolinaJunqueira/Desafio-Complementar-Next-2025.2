@@ -10,7 +10,7 @@ import AddModal from "../add_modal";
 import ViewModal from "../view_modal";
 import EditModal from "../edit_modal";
 import DeleteModal from "../delete_modal";
-import { editService } from "@/actions/management/action";
+import { deleteService, editService } from "@/actions/management/action";
 
 type TableProps = {
   services: Service[];
@@ -100,7 +100,10 @@ export default function ServicesTable({ services }: TableProps) {
           s.id === id ? result : s
         ));
       }} />
-      <DeleteModal open={modalDelete} onClose={() => setModalDelete(false)} service={selected} onConfirm={(id) => console.log("delete", id)} />
+      <DeleteModal open={modalDelete} onClose={() => setModalDelete(false)} service={selected} onConfirm={async (id) => {
+        await deleteService(id);
+        setServiceList(serviceList.filter(s => s.id !== id));
+      }} />
     </div>
   );
 }
