@@ -24,10 +24,10 @@ export default function ViewModal({ open, onClose, service }: ViewModalProps) {
                 <h2 className="text-xl font-semibold mb-4 text-center">Detalhes do Serviço</h2>
 
                 <div className="flex flex-col gap-3 text-center">
-                    <p><strong>Nome:</strong> {service.name}</p>
+                    <p><strong>Nome:</strong> {service.title}</p>
                     <p><strong>Preço:</strong> {service.price}</p>
                     <p><strong>WhatsApp:</strong> {service.whatsapp}</p>
-                    <p><strong>Descrição:</strong> {service.description}</p>
+                    <p><strong>Descrição:</strong> {service.content}</p>
                 </div>
 
                 <img src={service.image} className="w-full rounded mt-4" />
