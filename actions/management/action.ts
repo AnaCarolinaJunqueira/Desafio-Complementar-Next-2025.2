@@ -3,6 +3,7 @@
 import prisma from "@/src/lib/db";
 import { Service } from "@/src/app/types/admin/serviceTable";
 
+{/*Paginação */}
 export default async function getServices(page: number = 1): Promise<{ services: Service[]; totalPages: number }> {
   const itemsPerPage = 5;
   const skip = (page - 1) * itemsPerPage;
@@ -30,6 +31,7 @@ export default async function getServices(page: number = 1): Promise<{ services:
   return { services, totalPages };
 }
 
+{/*Modal de adicionar serviço */}
 export async function addService(data: {
   title: string;
   content: string;

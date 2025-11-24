@@ -11,7 +11,6 @@ export default function Admin() {
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
 
-  // ⬅️ Tipando o state como Service[]
   const [services, setServices] = useState<Service[]>([]);
   const [totalPages, setTotalPages] = useState(1);
 

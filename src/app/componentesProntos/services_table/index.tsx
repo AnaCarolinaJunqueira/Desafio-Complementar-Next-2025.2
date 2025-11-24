@@ -35,6 +35,7 @@ export default function ServicesTable({ services }: TableProps) {
 
   return (
     <div className="w-full overflow-x-auto">
+      {/*botão de adicionar */}
       <SearchBar />
       <button onClick={() => setModalAdd(true)} className="bg-[#D16339] text-white px-4 py-2 rounded mb-4">
         + Adicionar Serviço
@@ -66,6 +67,7 @@ export default function ServicesTable({ services }: TableProps) {
                 </a>
               </td>
               <td className="p-3 min-w-[170px]">
+                 {/*modais */}
                 <ActionButtons
                   onView={() => {
                     setSelected(service);
