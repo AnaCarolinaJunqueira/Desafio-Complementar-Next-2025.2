@@ -52,3 +52,25 @@ export async function addService(data: {
 
   return service;
 }
+
+{/*Editar Serviço */}
+export async function editService(id:number, data: {
+  title: string;
+  content: string;
+  price: number;
+  whatsapp: string;
+  image: string;
+}) {
+  const uptade = await prisma.services.update({
+    where: {id},
+    data:{
+      title: data.title,
+      content: data.content,
+      price: data.price,
+      whatsapp: data.whatsapp,
+      image: data.image,
+    },
+  });
+
+  return uptade;
+}

@@ -14,11 +14,19 @@ type EditModalProps = {
 export default function EditModal({ open, onClose, service, onSave }: EditModalProps) {
     if (!open || !service) return null;
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget); 
-        const updated = Object.fromEntries(data.entries()); 
-        onSave(service.id, updated);
+        const updated = {
+            title: data.get("title") as string,
+            content: data.get("content") as string,
+            image: data.get("image") as string,
+            whatsapp: data.get("whatsapp") as string,
+            price: Number(data.get("price")),
+        };
+
+        await onSave(service.id, updated);
+        onClose();
     };
 
     return (
@@ -32,11 +40,11 @@ export default function EditModal({ open, onClose, service, onSave }: EditModalP
                 <h2 className="text-xl font-semibold mb-4 text-center">Editar Serviço</h2>
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    <input name="name" defaultValue={service.name} className="border p-2 rounded w-full" />
+                    <input name="title" defaultValue={service.title} className="border p-2 rounded w-full" />
                     <input name="price" defaultValue={service.price} className="border p-2 rounded w-full" />
                     <input name="image" defaultValue={service.image} className="border p-2 rounded w-full" />
                     <input name="whatsapp" defaultValue={service.whatsapp} className="border p-2 rounded w-full" />
-                    <textarea name="description" defaultValue={service.description} className="border p-2 rounded w-full" />
+                    <textarea name="content" defaultValue={service.content} className="border p-2 rounded w-full" />
 
                     {/*Edita servico*/}
                     <button className="bg-[#D16339] text-white py-2 rounded">Salvar</button>

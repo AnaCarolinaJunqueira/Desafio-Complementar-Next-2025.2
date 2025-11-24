@@ -10,6 +10,7 @@ import AddModal from "../add_modal";
 import ViewModal from "../view_modal";
 import EditModal from "../edit_modal";
 import DeleteModal from "../delete_modal";
+import { editService } from "@/actions/management/action";
 
 type TableProps = {
   services: Service[];
@@ -93,7 +94,12 @@ export default function ServicesTable({ services }: TableProps) {
         setServiceList([...serviceList, newService])
       }} />
       <ViewModal open={modalView} onClose={() => setModalView(false)} service={selected} />
-      <EditModal open={modalEdit} onClose={() => setModalEdit(false)} service={selected} onSave={(id, data) => console.log("edit", id, data)} />
+      <EditModal open={modalEdit} onClose={() => setModalEdit(false)} service={selected} onSave={async (id, updated) =>{
+        const result = await editService(id, updated);
+        setServiceList(serviceList.map(s =>
+          s.id === id ? result : s
+        ));
+      }} />
       <DeleteModal open={modalDelete} onClose={() => setModalDelete(false)} service={selected} onConfirm={(id) => console.log("delete", id)} />
     </div>
   );
