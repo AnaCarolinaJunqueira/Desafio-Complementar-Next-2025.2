@@ -1,34 +1,30 @@
 "use client";
 
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 
 export default function SearchBar(){
     const router = useRouter();
     const searchParams = useSearchParams();
-    const pathname = usePathname();
+    const initial = searchParams.get("search") || "";
+    const [value, setValue] = useState(initial);
 
-    const [search, setSearch] = useState(searchParams.get("search") ?? "");
+    useEffect(()=>{
+        setValue(initial);
+    }, [initial]);
 
-    function handleSearch(e: React.FormEvent){
+    const handleSubmit = (e: React.FormEvent) =>{
         e.preventDefault();
-        const params = new URLSearchParams(searchParams.toString());
-
-        if(search){
-            params.set("search", search);
-        } 
-        else{
-            params.delete("search");
-        }
-        router.push(`${pathname}?${params.toString()}`);
-    }
+        const q = value.trim();
+        router.push(`?page=1${q ? `&search=${encodeURIComponent(q)}`: ""}`);
+    };
     return(
         <div className="flex justify-center mb-6">
-            <form onSubmit={handleSearch} className="w-1/2 relative">
+            <form onSubmit={handleSubmit} className="w-1/2 relative">
                 <input type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
                 placeholder="Pesquisar serviço"
                 className="border border-gray-300 rounded-lg p-2 pr-10 w-full"
             />

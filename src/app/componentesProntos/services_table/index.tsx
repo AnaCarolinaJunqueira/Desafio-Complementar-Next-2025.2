@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { Service } from "../../types/admin/serviceTable";
 
 import ActionButtons from "./action_buttons";
@@ -18,7 +17,7 @@ type TableProps = {
 
 export default function ServicesTable({ services }: TableProps) {
   const [serviceList, setServiceList] = useState(services);
-
+  
   useEffect(() => {
     setServiceList(services);
   }, [services]);
@@ -30,15 +29,16 @@ export default function ServicesTable({ services }: TableProps) {
 
   const [selected, setSelected] = useState<Service | null>(null);
 
-  const searchParams = useSearchParams();
-  const search = searchParams.get("search")?.toLowerCase() ?? "";
-  const filtered = serviceList.filter((service) => service.title.toLowerCase().includes(search));
-
   return (
     <div className="w-full overflow-x-auto">
-      {/*botão de adicionar */}
+      {/* barra de pesquisa */}
       <SearchBar />
-      <button onClick={() => setModalAdd(true)} className="bg-[#D16339] text-white px-4 py-2 rounded mb-4">
+
+      {/* botão adicionar */}
+      <button
+        onClick={() => setModalAdd(true)}
+        className="bg-[#D16339] text-white px-4 py-2 rounded mb-4"
+      >
         + Adicionar Serviço
       </button>
 
@@ -54,56 +54,95 @@ export default function ServicesTable({ services }: TableProps) {
           </tr>
         </thead>
         <tbody>
-          {filtered.map((service) => (
-            <tr key={service.id} className="border-b text-center">
-              <td className="p-3 min-w-[150px] max-w-[180px] overflow-hidden truncate">{service.title}</td>
-              <td className="p-3 min-w-[100px]">{service.price}</td>
-              <td className="p-3 min-w-[250px] max-w-[280px] overflow-hidden truncate">{service.content}</td>
-              <td className="p-3 min-w-[120px] flex justify-center">
-                <img src={service.image} className="h-12 rounded" />
-              </td>
-              <td className="p-3 min-w-[180px]">
-                <a href={`https://wa.me/${service.whatsapp}`} className="text-blue-600 underline" target="_blank">
-                  Agendar
-                </a>
-              </td>
-              <td className="p-3 min-w-[170px]">
-                 {/*modais */}
-                <ActionButtons
-                  onView={() => {
-                    setSelected(service);
-                    setModalView(true);
-                  }}
-                  onEdit={() => {
-                    setSelected(service);
-                    setModalEdit(true);
-                  }}
-                  onDelete={() => {
-                    setSelected(service);
-                    setModalDelete(true);
-                  }}
-                />
+          {/* Caso não tenha resultados */}
+          {serviceList.length === 0 ? (
+            <tr>
+              <td
+                colSpan={6}
+                className="text-center p-6 text-gray-500"
+              >
+                Nenhum serviço encontrado.
               </td>
             </tr>
-          ))}
+          ) : (
+            serviceList.map((service) => (
+              <tr key={service.id} className="border-b text-center">
+                <td className="p-3 min-w-[150px] max-w-[180px] overflow-hidden truncate">
+                  {service.title}
+                </td>
+
+                <td className="p-3 min-w-[100px]">{service.price}</td>
+
+                <td className="p-3 min-w-[250px] max-w-[280px] overflow-hidden truncate">
+                  {service.content}
+                </td>
+
+                <td className="p-3 min-w-[120px] flex justify-center">
+                  <img src={service.image} className="h-12 rounded" />
+                </td>
+
+                <td className="p-3 min-w-[180px]">
+                  <a
+                    href={`https://wa.me/${service.whatsapp}`}
+                    className="text-blue-600 underline"
+                    target="_blank"
+                  >
+                    Agendar
+                  </a>
+                </td>
+
+                <td className="p-3 min-w-[170px]">
+                  <ActionButtons
+                    onView={() => {
+                      setSelected(service);
+                      setModalView(true);
+                    }}
+                    onEdit={() => {
+                      setSelected(service);
+                      setModalEdit(true);
+                    }}
+                    onDelete={() => {
+                      setSelected(service);
+                      setModalDelete(true);
+                    }}
+                  />
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
 
       {/* Modais */}
-      <AddModal open={modalAdd} onClose={() => setModalAdd(false)} onAdded={(newService) => {
-        setServiceList([...serviceList, newService])
-      }} />
+      <AddModal
+        open={modalAdd}
+        onClose={() => setModalAdd(false)}
+        onAdded={(newService) => {
+          setServiceList([...serviceList, newService]);
+        }}
+      />
+
       <ViewModal open={modalView} onClose={() => setModalView(false)} service={selected} />
-      <EditModal open={modalEdit} onClose={() => setModalEdit(false)} service={selected} onSave={async (id, updated) =>{
-        const result = await editService(id, updated);
-        setServiceList(serviceList.map(s =>
-          s.id === id ? result : s
-        ));
-      }} />
-      <DeleteModal open={modalDelete} onClose={() => setModalDelete(false)} service={selected} onConfirm={async (id) => {
-        await deleteService(id);
-        setServiceList(serviceList.filter(s => s.id !== id));
-      }} />
+
+      <EditModal
+        open={modalEdit}
+        onClose={() => setModalEdit(false)}
+        service={selected}
+        onSave={async (id, updated) => {
+          const result = await editService(id, updated);
+          setServiceList(serviceList.map(s => (s.id === id ? result : s)));
+        }}
+      />
+
+      <DeleteModal
+        open={modalDelete}
+        onClose={() => setModalDelete(false)}
+        service={selected}
+        onConfirm={async (id) => {
+          await deleteService(id);
+          setServiceList(serviceList.filter(s => s.id !== id));
+        }}
+      />
     </div>
   );
 }

@@ -3,33 +3,35 @@
 import prisma from "@/src/lib/db";
 import { Service } from "@/src/app/types/admin/serviceTable";
 
-{/*Paginação */}
-export default async function getServices(page: number = 1): Promise<{ services: Service[]; totalPages: number }> {
-  const itemsPerPage = 5;
-  const skip = (page - 1) * itemsPerPage;
+{/*Paginação e barra de pesquisa*/}
+
+export async function getServices(page = 1, search = "") {
+  const itemsPerPage = 6;
+
+  const where: any = {
+    published: true,
+  };
+
+  if (search && search.trim() !== "") {
+    where.title = {
+      contains: search,
+      mode: "insensitive" as const,
+    };
+  }
 
   const services = await prisma.services.findMany({
-    skip,
+    where,
+    skip: (page - 1) * itemsPerPage,
     take: itemsPerPage,
-    where: { published: true },
-    orderBy: { id: "asc" },
-    select: {
-      id: true,
-      title: true,
-      content: true,
-      price: true,
-      whatsapp: true,
-      image: true,
-      published: true,
-    },
   });
 
-  const total = await prisma.services.count({ where: { published: true } });
+  const total = await prisma.services.count({ where });
 
   const totalPages = Math.ceil(total / itemsPerPage);
 
   return { services, totalPages };
 }
+
 
 {/*Modal de adicionar serviço */}
 export async function addService(data: {

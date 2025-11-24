@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import getServices from "@/actions/management/action";
+import {getServices} from "@/actions/management/action";
 import ServicesTable from "../componentesProntos/services_table";
 import Pagination from "../componentesProntos/services_table/pagination";
 import { Service } from "../types/admin/serviceTable";
@@ -10,18 +10,19 @@ import { Service } from "../types/admin/serviceTable";
 export default function Admin() {
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
+  const search = searchParams.get("search") || "";
 
   const [services, setServices] = useState<Service[]>([]);
   const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     async function load() {
-      const { services, totalPages } = await getServices(page);
-      setServices(services);
-      setTotalPages(totalPages);
+      const { services:svc, totalPages:tp } = await getServices(page, search);
+      setServices(svc);
+      setTotalPages(tp);
     }
     load();
-  }, [page]);
+  }, [page, search]);
 
   return (
     <main className="px-6 py-12 min-h-screen">
