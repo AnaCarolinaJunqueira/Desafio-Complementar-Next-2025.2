@@ -13,9 +13,10 @@ import { deleteService, editService } from "@/actions/management/action";
 
 type TableProps = {
   services: Service[];
+  onAdded?: (service: any) => void;
 };
 
-export default function ServicesTable({ services }: TableProps) {
+export default function ServicesTable({ services, onAdded }: TableProps) {
   const [serviceList, setServiceList] = useState(services);
   
   useEffect(() => {
@@ -119,6 +120,7 @@ export default function ServicesTable({ services }: TableProps) {
         onClose={() => setModalAdd(false)}
         onAdded={(newService) => {
           setServiceList([...serviceList, newService]);
+          if(onAdded) onAdded(newService);
         }}
       />
 

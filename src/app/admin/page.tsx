@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import {getServices} from "@/actions/management/action";
 import ServicesTable from "../componentesProntos/services_table";
 import Pagination from "../componentesProntos/services_table/pagination";
 import { Service } from "../types/admin/serviceTable";
 
 export default function Admin() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const page = Number(searchParams.get("page")) || 1;
   const search = searchParams.get("search") || "";
@@ -30,7 +31,11 @@ export default function Admin() {
         Gerenciamento de Serviços
       </h1>
 
-      <ServicesTable services={services} />
+      <ServicesTable services={services} 
+      onAdded={()=>{
+        router.push(`?page=${totalPages}`);
+      }}
+      />
       <Pagination totalPages={totalPages} currentPage={page} />
     </main>
   );
